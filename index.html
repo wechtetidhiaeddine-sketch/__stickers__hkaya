@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Sticker Search</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f2f2f2;
+}
+header {
+  background: #111;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  font-size: 24px;
+}
+.container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+.search-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+}
+button {
+  padding: 10px 20px;
+  background: #111;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+button:hover {
+  background: #333;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+.card {
+  background: white;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.card img {
+  width: 100px;
+  height: 100px;
+}
+.status {
+  margin-top: 10px;
+  color: #555;
+}
+</style>
+</head>
+<body>
+
+<header>AI Sticker Search</header>
+
+<div class="container">
+  <div class="search-box">
+    <input id="search" type="text" placeholder="Search stickers (happy, love, angry...)" />
+    <button onclick="searchStickers()">Search</button>
+  </div>
+
+  <div id="status" class="status"></div>
+
+  <div id="results" class="grid"></div>
+</div>
+
+<script>
+const stickers = [
+  { name: "happy", url: "https://media.giphy.com/media/1/happy.gif" },
+  { name: "sad", url: "https://media.giphy.com/media/2/sad.gif" },
+  { name: "love", url: "https://media.giphy.com/media/3/love.gif" },
+  { name: "angry", url: "https://media.giphy.com/media/4/angry.gif" },
+  { name: "cool", url: "https://media.giphy.com/media/5/cool.gif" }
+];
+
+function aiSearch(query) {
+  return stickers.filter(s => s.name.toLowerCase().includes(query.toLowerCase()));
+}
+
+function searchStickers() {
+  const query = document.getElementById("search").value;
+  const resultsDiv = document.getElementById("results");
+  const status = document.getElementById("status");
+
+  resultsDiv.innerHTML = "";
+
+  if (!query) {
+    status.textContent = "Please type something...";
+    return;
+  }
+
+  status.textContent = "AI is thinking...";
+
+  setTimeout(() => {
+    const results = aiSearch(query);
+
+    if (results.length === 0) {
+      status.textContent = "No stickers found";
+      return;
+    }
+
+    status.textContent = "Results:";
+
+    results.forEach(sticker => {
+      const div = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `
+        <img src="${sticker.url}" alt="${sticker.name}" />
+        <p>${sticker.name}</p>
+      `;
+      resultsDiv.appendChild(div);
+    });
+  }, 500);
+}
+</script>
+
+</body>
+</html>
