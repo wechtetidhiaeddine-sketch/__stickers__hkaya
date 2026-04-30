@@ -1,133 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>AI Sticker Search</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Sticker Pro Max</title>
+
 <style>
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #f2f2f2;
+body{
+margin:0;
+font-family:Arial;
+transition:.3s;
 }
-header {
-  background: #111;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  font-size: 24px;
+
+body.dark{
+background:linear-gradient(135deg,#0f172a,#020617);
+color:white;
 }
-.container {
-  padding: 20px;
-  max-width: 900px;
-  margin: auto;
+
+body.light{
+background:#f2f2f2;
+color:black;
 }
-.search-box {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+
+header{
+text-align:center;
+padding:20px;
+font-size:26px;
+font-weight:bold;
 }
-input {
-  flex: 1;
-  padding: 10px;
-  font-size: 16px;
+
+.container{
+max-width:950px;
+margin:auto;
+padding:15px;
 }
-button {
-  padding: 10px 20px;
-  background: #111;
-  color: white;
-  border: none;
-  cursor: pointer;
+
+.top{
+display:flex;
+justify-content:space-between;
+margin-bottom:10px;
 }
-button:hover {
-  background: #333;
+
+button{
+border:none;
+padding:10px;
+border-radius:10px;
+cursor:pointer;
+background:#38bdf8;
+font-weight:bold;
 }
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 15px;
+
+input{
+flex:1;
+padding:12px;
+border-radius:10px;
+border:none;
+outline:none;
 }
-.card {
-  background: white;
-  padding: 10px;
-  text-align: center;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+
+.search{
+display:flex;
+gap:10px;
 }
-.card img {
-  width: 100px;
-  height: 100px;
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+gap:15px;
+margin-top:20px;
 }
-.status {
-  margin-top: 10px;
-  color: #555;
+
+.card{
+padding:10px;
+border-radius:15px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(10px);
+text-align:center;
+transition:.3s;
+}
+
+.card:hover{transform:scale(1.05)}
+
+.card img{
+width:120px;
+height:120px;
+}
+
+.status{
+margin:10px 0;
+opacity:.7;
+}
+
+.small{
+font-size:12px;
+padding:6px;
+margin:3px;
 }
 </style>
 </head>
-<body>
 
-<header>AI Sticker Search</header>
+<body class="dark">
+
+<header>🔥 AI Sticker PRO MAX</header>
 
 <div class="container">
-  <div class="search-box">
-    <input id="search" type="text" placeholder="Search stickers (happy, love, angry...)" />
-    <button onclick="searchStickers()">Search</button>
-  </div>
 
-  <div id="status" class="status"></div>
+<div class="top">
+<button onclick="toggleTheme()">🌙 Theme</button>
+<button onclick="voice()">🎤 Voice</button>
+<button onclick="openFav()">⭐ Favorites</button>
+</div>
 
-  <div id="results" class="grid"></div>
+<div class="search">
+<input id="input" placeholder="Type or speak..." oninput="autoSuggest()"/>
+<button onclick="search()">Search</button>
+</div>
+
+<div id="suggest"></div>
+<div id="status" class="status"></div>
+<div id="grid" class="grid"></div>
+
 </div>
 
 <script>
-const stickers = [
-  { name: "happy", url: "https://media.giphy.com/media/1/happy.gif" },
-  { name: "sad", url: "https://media.giphy.com/media/2/sad.gif" },
-  { name: "love", url: "https://media.giphy.com/media/3/love.gif" },
-  { name: "angry", url: "https://media.giphy.com/media/4/angry.gif" },
-  { name: "cool", url: "https://media.giphy.com/media/5/cool.gif" }
-];
 
-function aiSearch(query) {
-  return stickers.filter(s => s.name.toLowerCase().includes(query.toLowerCase()));
+const API="YOUR_GIPHY_API_KEY";
+
+let cache={};
+let fav=JSON.parse(localStorage.getItem("fav")||"[]");
+
+// 🌍 AI language detect + intent
+function ai(text){
+text=text.toLowerCase();
+
+if(text.includes("amour")||text.includes("love")||text.includes("حب")) return "love";
+if(text.includes("heureux")||text.includes("happy")||text.includes("سعيد")) return "happy";
+if(text.includes("triste")||text.includes("sad")||text.includes("حزين")) return "sad";
+if(text.includes("angry")||text.includes("غضب")) return "angry";
+return text;
 }
 
-function searchStickers() {
-  const query = document.getElementById("search").value;
-  const resultsDiv = document.getElementById("results");
-  const status = document.getElementById("status");
+// ⚡ search API
+async function get(query){
+if(cache[query]) return cache[query];
 
-  resultsDiv.innerHTML = "";
+let res=await fetch(`https://api.giphy.com/v1/stickers/search?api_key=${API}&q=${query}&limit=12`);
+let data=await res.json();
 
-  if (!query) {
-    status.textContent = "Please type something...";
-    return;
-  }
+let out=data.data.map(x=>({
+url:x.images.fixed_height.url,
+name:x.title
+}));
 
-  status.textContent = "AI is thinking...";
-
-  setTimeout(() => {
-    const results = aiSearch(query);
-
-    if (results.length === 0) {
-      status.textContent = "No stickers found";
-      return;
-    }
-
-    status.textContent = "Results:";
-
-    results.forEach(sticker => {
-      const div = document.createElement("div");
-      div.className = "card";
-      div.innerHTML = `
-        <img src="${sticker.url}" alt="${sticker.name}" />
-        <p>${sticker.name}</p>
-      `;
-      resultsDiv.appendChild(div);
-    });
-  }, 500);
+cache[query]=out;
+return out;
 }
+
+// 🔎 search
+async function search(){
+let input=document.getElementById("input").value;
+let status=document.getElementById("status");
+let grid=document.getElementById("grid");
+
+grid.innerHTML="";
+
+if(!input){
+status.innerText="Type something...";
+return;
+}
+
+let q=ai(input);
+
+status.innerText="🧠 AI thinking...";
+
+let data=await get(q);
+
+status.innerText="Results:";
+
+data.forEach(s=>{
+let div=document.createElement("div");
+div.className="card";
+
+div.innerHTML=`
+<img src="${s.url}"/>
+<p>${s.name}</p>
+<button class="small" onclick="favAdd('${s.url}')">⭐</button>
+<button class="small" onclick="share('${s.url}')">📤</button>
+`;
+
+grid.appendChild(div);
+});
+}
+
+// ⭐ favorites
+function favAdd(url){
+if(!fav.includes(url)){
+fav.push(url);
+localStorage.setItem("fav",JSON.stringify(fav));
+alert("Added ⭐");
+}
+}
+
+// 📤 share
+function share(url){
+navigator.clipboard.writeText(url);
+alert("Copied link 📤");
+}
+
+// 🌙 theme
+function toggleTheme(){
+document.body.classList.toggle("dark");
+document.body.classList.toggle("light");
+}
+
+// 🎤 voice
+function voice(){
+let r=new (window.SpeechRecognition||window.webkitSpeechRecognition)();
+r.lang="en-US";
+r.start();
+
+r.onresult=e=>{
+document.getElementById("input").value=e.results[0][0].transcript;
+search();
+};
+}
+
+// ⭐ favorites page
+function openFav(){
+let grid=document.getElementById("grid");
+grid.innerHTML="";
+
+fav.forEach(u=>{
+let div=document.createElement("div");
+div.className="card";
+div.innerHTML=`
+<img src="${u}"/>
+<p>Favorite</p>
+`;
+grid.appendChild(div);
+});
+}
+
+// ⚡ autocomplete
+function autoSuggest(){
+let v=document.getElementById("input").value;
+let s=document.getElementById("suggest");
+
+if(!v){s.innerHTML="";return;}
+
+let list=["happy","sad","love","angry","cool","funny"];
+
+let f=list.filter(x=>x.startsWith(v.toLowerCase()));
+
+s.innerHTML=f.map(x=>`<button class="small" onclick="pick('${x}')">${x}</button>`).join(" ");
+}
+
+function pick(x){
+document.getElementById("input").value=x;
+search();
+}
+
 </script>
 
 </body>
