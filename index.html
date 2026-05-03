@@ -1,320 +1,302 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>🚀 AI coding </title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stickers-hkaya | Aesthetic Stickers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Pacifico&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-pink: #ff9ecb;
+            --dark-pink: #ff69b4;
+            --soft-white: #fffafa;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease-in-out;
+        }
 
-<style>
-*{box-sizing:border-box}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-body{
-margin:0;
-font-family:Arial;
-background:url("YOUR_IMAGE_HERE.jpg") no-repeat center center/cover;
-color:white;
-}
+        html {
+            scroll-behavior: smooth;
+        }
 
-/* Overlay */
-body::before{
-content:"";
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(6px);
-z-index:-1;
-}
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #fffcfd;
+            color: #444;
+            line-height: 1.6;
+        }
 
-.container{
-max-width:900px;
-margin:auto;
-padding:20px;
-}
+        /* NAVBAR */
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 8%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
 
-/* Cards */
-.card{
-background:rgba(255,255,255,0.08);
-padding:20px;
-margin-top:15px;
-border-radius:15px;
-backdrop-filter:blur(10px);
-transition:.3s;
-}
+        header h1 {
+            font-family: 'Pacifico', cursive;
+            color: var(--dark-pink);
+            font-size: 24px;
+        }
 
-.card:hover{
-transform:scale(1.02);
-}
+        nav a {
+            margin-left: 25px;
+            text-decoration: none;
+            color: #555;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            transition: var(--transition);
+        }
 
-/* Inputs */
-input{
-width:100%;
-padding:12px;
-border-radius:20px;
-border:none;
-margin:5px 0;
-outline:none;
-}
+        nav a:hover {
+            color: var(--dark-pink);
+        }
 
-/* Buttons */
-button{
-padding:10px 15px;
-border-radius:20px;
-border:none;
-background:linear-gradient(45deg,#4facfe,#00f2fe);
-color:white;
-cursor:pointer;
-transition:.3s;
-}
+        /* HOME / HERO SECTION */
+        .home {
+            height: 100vh;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
 
-button:hover{
-opacity:.8;
-transform:scale(1.05);
-}
+        .home h2 {
+            font-size: 3rem;
+            color: #333;
+            margin-bottom: 10px;
+            animation: fadeInUp 0.8s ease-out;
+        }
 
-/* Result Cards */
-.result-card{
-background:rgba(255,255,255,0.1);
-padding:15px;
-margin-top:10px;
-border-radius:10px;
-animation:fade .5s ease;
-}
+        .home p {
+            font-size: 1.2rem;
+            color: #777;
+            margin-bottom: 30px;
+        }
 
-@keyframes fade{
-from{opacity:0;transform:translateY(10px)}
-to{opacity:1;transform:translateY(0)}
-}
+        .btn {
+            background: var(--primary-pink);
+            padding: 15px 35px;
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 158, 203, 0.4);
+            transition: var(--transition);
+        }
 
-/* Progress */
-.progress{
-height:8px;
-background:#ffffff33;
-border-radius:10px;
-margin:10px 0;
-}
+        .btn:hover {
+            background: var(--dark-pink);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4);
+        }
 
-.bar{
-height:100%;
-background:#00ffcc;
-width:0%;
-}
+        /* SHOP SECTION */
+        .shop {
+            padding: 100px 8%;
+            text-align: center;
+        }
 
-/* Stickers */
-.sticker{
-font-size:40px;
-margin:5px;
-display:inline-block;
-transition:.3s;
-cursor:pointer;
-}
+        .shop h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            position: relative;
+        }
 
-.sticker:hover{
-transform:scale(1.3) rotate(10deg);
-}
-</style>
+        .shop h2::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background: var(--primary-pink);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid #fef0f5;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 18px;
+            margin-bottom: 15px;
+            background: #f9f9f9;
+        }
+
+        .card h3 {
+            margin: 10px 0;
+            font-size: 1.2rem;
+        }
+
+        .price {
+            color: var(--dark-pink);
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .buy-btn {
+            display: inline-block;
+            padding: 8px 20px;
+            border: 2px solid var(--primary-pink);
+            color: var(--primary-pink);
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .buy-btn:hover {
+            background: var(--primary-pink);
+            color: white;
+        }
+
+        /* ABOUT & CONTACT */
+        .section-padding {
+            padding: 100px 8%;
+            text-align: center;
+        }
+
+        .about { background: #fffafa; }
+
+        .contact-link {
+            font-size: 1.5rem;
+            color: var(--dark-pink);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            font-size: 0.9rem;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 5%;
+                flex-direction: column;
+            }
+            nav { margin-top: 15px; }
+            nav a { margin: 0 10px; font-size: 12px; }
+            .home h2 { font-size: 2rem; }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="container">
+<header>
+    <h1>Stickers-hkaya 💗</h1>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#shop">Shop</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </nav>
+</header>
 
-<h1>🤖 AI coding d&t PRO</h1>
+<section class="home">
+    <h2>Cute Stickers Made With Love</h2>
+    <p>Premium Aesthetic Decorations for Your Lifestyle 💕</p>
+    <a class="btn" href="https://www.instagram.com/__stickers__hkaya_/" target="_blank">
+        Explore Collection 💗
+    </a>
+</section>
 
-<!-- LOGIN -->
-<div class="card">
-<input id="user" placeholder="Username">
-<button onclick="login()">Login</button>
-<p id="welcome"></p>
-</div>
+<section id="shop" class="shop">
+    <h2>Our Collection</h2>
+    <div class="cards">
+        <div class="card">
+            <img src="https://via.placeholder.com/300x300/ff9ecb/ffffff?text=Pink+Pack" alt="Pink Pack">
+            <h3>Pink Pack 💗</h3>
+            <span class="price">0.700 DT</span>
+            <a href="#" class="buy-btn">Add to Cart</a>
+        </div>
 
-<!-- SEARCH -->
-<div class="card">
-<input id="q" placeholder="Recherche ou sticker...">
-<button onclick="search()">Search</button>
-<button onclick="voice()">🎤</button>
-<div id="result"></div>
-</div>
+        <div class="card">
+            <img src="https://via.placeholder.com/300x300/ff9ecb/ffffff?text=Moon+Pack" alt="Moon Pack">
+            <h3>Moon Pack 🌙</h3>
+            <span class="price">0.700 DT</span>
+            <a href="#" class="buy-btn">Add to Cart</a>
+        </div>
 
-<!-- AI -->
-<div class="card">
-<input id="msg" placeholder="Ask AI...">
-<button onclick="chat()">Send</button>
-<div id="chatBox"></div>
-</div>
+        <div class="card">
+            <img src="https://via.placeholder.com/300x300/ff9ecb/ffffff?text=Cat+Pack" alt="Cat Pack">
+            <h3>Cat Pack 🐱</h3>
+            <span class="price">0.700 DT</span>
+            <a href="#" class="buy-btn">Add to Cart</a>
+        </div>
+    </div>
+</section>
 
-<!-- COMPARE -->
-<div class="card">
-<input id="a" placeholder="Langage 1">
-<input id="b" placeholder="Langage 2">
-<button onclick="compare()">Compare</button>
-<div id="cmp"></div>
-</div>
+<section id="about" class="section-padding about">
+    <h2>About Us 💕</h2>
+    <p style="max-width: 700px; margin: 0 auto;">
+        We are a small business based in <b>Tunisia 🇹🇳</b>. Our mission is to spread joy through small pieces of art. 
+        Each sticker is designed and produced with meticulous attention to detail to ensure the best aesthetic quality for your journals, laptops, and more.
+    </p>
+</section>
 
-<!-- FAVORITES -->
-<div class="card">
-<h3>⭐ Favoris</h3>
-<div id="fav"></div>
-</div>
+<section id="contact" class="section-padding">
+    <h2>Contact Us 💌</h2>
+    <p>Want a custom design or have a question?</p>
+    <br>
+    <a href="https://www.instagram.com/__stickers__hkaya_/" class="contact-link" target="_blank">@__stickers__hkaya_</a>
+</section>
 
-<!-- QUIZ -->
-<div class="card">
-<h3>🧠 Quiz</h3>
-<button onclick="startQuiz()">Start</button>
-<button onclick="aiQuiz()">AI Quiz</button>
-<div id="quiz"></div>
-</div>
-
-</div>
-
-<script>
-
-/* LOGIN */
-function login(){
-let u=user.value;
-localStorage.setItem("user",u);
-welcome.innerText="Bienvenue "+u;
-}
-
-/* SEARCH + STICKERS */
-const stickers={
-"love":["❤️","😍","😘"],
-"sad":["😢","😭","💔"],
-"happy":["😄","😁","🥳"],
-"fire":["🔥","💥","⚡"],
-"cool":["😎","🧊","🚀"]
-};
-
-async function search(){
-let q=document.getElementById("q").value.toLowerCase();
-
-result.innerHTML="";
-
-/* Sticker detection */
-if(stickers[q]){
-result.innerHTML=stickers[q].map(s=>`<span class="sticker">${s}</span>`).join("");
-return;
-}
-
-/* Wikipedia */
-try{
-let r=await fetch("https://fr.wikipedia.org/api/rest_v1/page/summary/"+q);
-let d=await r.json();
-
-result.innerHTML=`
-<div class="result-card">
-<h2>${d.title}</h2>
-<p>${d.extract}</p>
-<button onclick="save('${d.title}')">⭐</button>
-</div>`;
-}catch{
-result.innerHTML="❌ Aucun résultat";
-}
-}
-
-/* AI CHAT */
-async function chat(){
-let msg=document.getElementById("msg").value;
-
-chatBox.innerHTML+=`<p>🧑 ${msg}</p>`;
-
-try{
-let r=await fetch("http://localhost:3000/chat",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({msg})
-});
-
-let d=await r.json();
-chatBox.innerHTML+=`<p>🤖 ${d.reply}</p>`;
-}catch{
-chatBox.innerHTML+=`<p>🤖 (offline mode)</p>`;
-}
-}
-
-/* COMPARE */
-function compare(){
-cmp.innerHTML=`👉 ${a.value} ≠ ${b.value}`;
-}
-
-/* FAVORITES */
-function loadFav(){
-let f=JSON.parse(localStorage.getItem("fav")||"[]");
-fav.innerHTML=f.map(x=>`⭐ ${x}`).join("<br>");
-}
-loadFav();
-
-function save(x){
-let f=JSON.parse(localStorage.getItem("fav")||"[]");
-f.push(x);
-localStorage.setItem("fav",JSON.stringify(f));
-loadFav();
-}
-
-/* QUIZ */
-let quizData=[
-{q:"JS sert à ?",o:["Design","Interaction web","DB"],a:1},
-{q:"HTML ?",o:["Langage","Email","OS"],a:0}
-];
-
-let i=0,score=0,time=10,t;
-
-function startQuiz(){
-i=0;score=0;
-next();
-}
-
-function next(){
-clearInterval(t);
-
-if(i>=quizData.length){
-quiz.innerHTML=`Score: ${score}`;
-return;
-}
-
-let q=quizData[i];
-
-quiz.innerHTML=`
-<p>${q.q}</p>
-<div class="progress"><div class="bar" id="bar"></div></div>
-${q.o.map((x,idx)=>`<button onclick="ans(${idx})">${x}</button>`).join("<br>")}
-`;
-
-time=10;
-
-t=setInterval(()=>{
-time--;
-bar.style.width=(time*10)+"%";
-
-if(time<=0){
-i++;next();
-}
-},1000);
-}
-
-function ans(x){
-if(x===quizData[i].a) score++;
-i++;
-next();
-}
-
-/* AI QUIZ */
-async function aiQuiz(){
-quiz.innerHTML="⏳ loading...";
-}
-
-/* VOICE */
-function voice(){
-let r=new webkitSpeechRecognition();
-r.lang="fr-FR";
-r.onresult=e=>{
-q.value=e.results[0][0].transcript;
-search();
-};
-r.start();
-}
-
-</script>
+<footer>
+    <p>© 2026 Stickers-hkaya. All rights reserved. Made with ✨ in Tunisia.</p>
+</footer>
 
 </body>
 </html>
